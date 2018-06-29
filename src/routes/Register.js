@@ -1,12 +1,28 @@
 import React from 'react';
-import { Message, Button, Input, Container, Header } from 'semantic-ui-react';
+import {
+  Form,
+  Message,
+  Button,
+  Input,
+  Container,
+  Header,
+} from 'semantic-ui-react';
 import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
 
 const registerMutation = gql`
   mutation($username: String!, $email: String!, $password: String!) {
     signup(username: $username, email: $email, password: $password) {
-      id
+      ok
+      usuario {
+        id
+        email
+        jwt
+      }
+      errors {
+        path
+        message
+      }
     }
   }
 `;
@@ -14,8 +30,11 @@ const registerMutation = gql`
 class Register extends React.Component {
   state = {
     username: '',
+    usernameError: '',
     email: '',
+    emailError: '',
     password: '',
+    passwordError: '',
   };
 
   onSubmit = async () => {
@@ -30,9 +49,18 @@ class Register extends React.Component {
       variables: { username, email, password },
     });
 
-    let data = response.data;
+    let { ok, errors } = response.data.signup;
+    if (ok) {
+      this.props.history.push('/');
+    } else {
+      const err = {};
+      errors.forEach(({ path, message }) => {
+        err[`${path}Error`] = message;
+      });
+      this.setState(err);
+    }
 
-    // console.log(response);
+    console.log(response);
   };
 
   onChange = (e) => {
@@ -41,37 +69,66 @@ class Register extends React.Component {
   };
 
   render() {
-    const { username, email, password } = this.state;
+    const {
+      username,
+      email,
+      password,
+      usernameError,
+      emailError,
+      passwordError,
+    } = this.state;
 
+    const errorList = [];
+    if (usernameError) {
+      errorList.push(usernameError);
+    }
+
+    if (emailError) {
+      errorList.push(emailError);
+    }
+
+    if (passwordError) {
+      errorList.push(passwordError);
+    }
     return (
       <Container text>
         <Header as="h2">Cadastro do Usuarios</Header>
-        <Input
-          name="username"
-          onChange={this.onChange}
-          value={username}
-          placeholder="Username"
-          fluid
-        />
-        <Input
-          name="email"
-          onChange={this.onChange}
-          value={email}
-          placeholder="E-mail"
-          fluid
-        />
-        <Input
-          name="password"
-          onChange={this.onChange}
-          value={password}
-          type="password"
-          placeholder="Senha"
-          fluid
-        />
-        <br />
-        <Button inverted primary onClick={this.onSubmit}>
-          Cadastrar
-        </Button>
+        {usernameError || emailError || passwordError ? (
+          <Message error header="Verifique" list={errorList} />
+        ) : null}
+        <Form>
+          <Form.Input error={!!usernameError}>
+            <Input
+              name="username"
+              onChange={this.onChange}
+              value={username}
+              placeholder="Username"
+              fluid
+            />
+          </Form.Input>
+          <Form.Input error={!!emailError}>
+            <Input
+              name="email"
+              onChange={this.onChange}
+              value={email}
+              placeholder="E-mail"
+              fluid
+            />
+          </Form.Input>
+          <Form.Input>
+            <Input
+              name="password"
+              onChange={this.onChange}
+              value={password}
+              type="password"
+              placeholder="Senha"
+              fluid
+            />
+          </Form.Input>
+          <Button inverted primary onClick={this.onSubmit}>
+            Cadastrar
+          </Button>
+        </Form>
       </Container>
     );
   }
