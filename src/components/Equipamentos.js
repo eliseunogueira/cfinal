@@ -67,6 +67,15 @@ class Equipamentos extends Component {
         <Header as="h2">Cadastro de Equipamento</Header>
         <Form onSubmit={this.submitForm.bind(this)}>
           <Form.Field>
+            <label>Cliente:</label>
+            <select
+              onChange={(e) => this.setState({ clienteId: e.target.value })}
+            >
+              <option>Selecione o Cliente</option>
+              {this.mostraCliente()}
+            </select>
+          </Form.Field>
+          <Form.Field>
             <Input
               label="Nome"
               type="text"
@@ -126,6 +135,7 @@ class Equipamentos extends Component {
           </Form.Field>
           <Form.Field>
             <TextArea
+              autoHeight
               placeholder="Ensaios"
               onChange={(e) => this.setState({ ensaio: e.target.value })}
             />
@@ -137,15 +147,7 @@ class Equipamentos extends Component {
               onChange={(e) => this.setState({ status: e.target.value })}
             />
           </Form.Field>
-          <Form.Field>
-            <label>Empresa:</label>
-            <select
-              onChange={(e) => this.setState({ clienteId: e.target.value })}
-            >
-              <option>Selecione o Cliente</option>
-              {this.mostraCliente()}
-            </select>
-          </Form.Field>
+
           <FormButton color="blue">+</FormButton>
         </Form>
       </Container>

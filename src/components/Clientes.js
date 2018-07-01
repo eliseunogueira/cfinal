@@ -53,6 +53,15 @@ class Clientes extends Component {
         <Header as="h2">Cadastro de Cliente</Header>
         <Form onSubmit={this.submitForm.bind(this)}>
           <Form.Field>
+            <label>Empresa:</label>
+            <select
+              onChange={(e) => this.setState({ empresaId: e.target.value })}
+            >
+              <option>Selecione a Empresa</option>
+              {this.mostraEmpresa()}
+            </select>
+          </Form.Field>
+          <Form.Field>
             <Input
               label="Nome"
               type="text"
@@ -96,15 +105,6 @@ class Clientes extends Component {
             />
           </Form.Field>
 
-          <Form.Field>
-            <label>Empresa:</label>
-            <select
-              onChange={(e) => this.setState({ empresaId: e.target.value })}
-            >
-              <option>Selecione a Empresa</option>
-              {this.mostraEmpresa()}
-            </select>
-          </Form.Field>
           <FormButton color="blue">+</FormButton>
         </Form>
       </Container>

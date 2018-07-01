@@ -8,6 +8,9 @@ const getEquipamentoQuery = gql`
     equipamentos {
       id
       nome
+      cliente {
+        nome
+      }
     }
   }
 `;

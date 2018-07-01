@@ -35,7 +35,7 @@ class Certificado extends Component {
       return data.equipamentos.map((equipamento) => {
         return (
           <option key={equipamento.id} value={equipamento.id}>
-            {equipamento.nome}
+            {equipamento.nome} * Cliente->{equipamento.cliente.nome}
           </option>
         );
       });
@@ -67,6 +67,15 @@ class Certificado extends Component {
         <Header as="h2">Emitir Certificado</Header>
         <Form onSubmit={this.submitForm.bind(this)}>
           <Form.Field>
+            <label>Equipamento</label>
+            <select
+              onChange={(e) => this.setState({ equipamentoId: e.target.value })}
+            >
+              <option>Selecione o Equipamento</option>
+              {this.mostraEquipamento()}
+            </select>
+          </Form.Field>
+          <Form.Field>
             <Input
               label="Nome"
               type="text"
@@ -96,7 +105,7 @@ class Certificado extends Component {
           <Form.Field>
             <Input
               label="Data"
-              type="data"
+              type="date"
               onChange={(e) => this.setState({ data: e.target.value })}
             />
           </Form.Field>
@@ -116,6 +125,7 @@ class Certificado extends Component {
           </Form.Field>
           <Form.Field>
             <TextArea
+              autoHeight
               placeholder="Status"
               onChange={(e) => this.setState({ status: e.target.value })}
             />
@@ -126,15 +136,7 @@ class Certificado extends Component {
               onChange={(e) => this.setState({ arquivo: e.target.value })}
             />
           </Form.Field>
-          <Form.Field>
-            <label>Equipamento</label>
-            <select
-              onChange={(e) => this.setState({ equipamentoId: e.target.value })}
-            >
-              <option>Selecione o Equipamento</option>
-              {this.mostraEquipamento()}
-            </select>
-          </Form.Field>
+
           <FormButton color="blue">+</FormButton>
         </Form>
       </Container>

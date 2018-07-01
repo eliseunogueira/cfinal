@@ -22,7 +22,7 @@ class Login extends React.Component {
       variables: { email, password },
     });
 
-    console.log(response);
+    //console.log(response);
 
     const { ok, usuario, errors } = response.data.login;
 

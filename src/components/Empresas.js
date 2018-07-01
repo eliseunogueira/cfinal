@@ -51,7 +51,17 @@ class Empresas extends Component {
         <Header as="h2">Cadastro Empresa Prestadora de Serviço</Header>
         <Form onSubmit={this.submitForm.bind(this)}>
           <Form.Field>
+            <label>Usuario:</label>
+            <select
+              onChange={(e) => this.setState({ usuarioId: e.target.value })}
+            >
+              <option>Selecione o usuario</option>
+              {this.mostraUsuario()}
+            </select>
+          </Form.Field>
+          <Form.Field>
             <Input
+              icon="users"
               label="Nome"
               type="text"
               onChange={(e) => this.setState({ nome: e.target.value })}
@@ -74,6 +84,7 @@ class Empresas extends Component {
           </Form.Field>
           <Form.Field>
             <Input
+              icon="mail"
               label="E-mail 1"
               type="text"
               onChange={(e) => this.setState({ email_1: e.target.value })}
@@ -81,6 +92,7 @@ class Empresas extends Component {
           </Form.Field>
           <Form.Field>
             <Input
+              icon="mail"
               label="E-mail 2"
               type="text"
               onChange={(e) => this.setState({ email_2: e.target.value })}
@@ -94,15 +106,6 @@ class Empresas extends Component {
             />
           </Form.Field>
 
-          <Form.Field>
-            <label>Usuario:</label>
-            <select
-              onChange={(e) => this.setState({ usuarioId: e.target.value })}
-            >
-              <option>Selecione o usuario</option>
-              {this.mostraUsuario()}
-            </select>
-          </Form.Field>
           <FormButton color="blue">+</FormButton>
         </Form>
       </Container>

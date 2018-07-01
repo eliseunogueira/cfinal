@@ -1,87 +1,62 @@
-import React, { Component } from 'react';
-import { Menu, Container } from 'semantic-ui-react';
+import React from 'react';
+import { Tab, Container, Header } from 'semantic-ui-react';
+import Certificado from '../components/Certificado';
+import Clientes from '../components/Clientes';
+import Empresas from '../components/Empresas';
+import Equipamentos from '../components/Equipamentos';
 
-export default class Home extends Component {
-  handleItemClick = (name) => this.setState({ activeItem: name });
+const panes = [
+  {
+    menuItem: {
+      icon: { name: 'building outline', color: 'violet' },
+      name: 'Minha Empresa',
+      key: 'empresa',
+    },
+    render: () => <Empresas />,
+  },
+  {
+    menuItem: {
+      icon: { name: 'users', color: 'green' },
+      name: 'Clientes',
+      key: 'cliente',
+    },
+    render: () => <Clientes />,
+  },
+  {
+    menuItem: {
+      icon: {
+        name: 'dashboard',
+        color: 'orange',
+        inverted: true,
+        bordered: true,
+      },
+      name: 'Equipamentos',
+      key: 'equipamento',
+    },
+    render: () => <Equipamentos />,
+  },
+  {
+    menuItem: {
+      icon: { name: 'browser', color: 'blue', bordered: true },
+      name: 'Certificados',
+      key: 'Certificado',
+    },
+    render: () => <Certificado />,
+  },
+];
 
-  render() {
-    const { activeItem } = this.state || {};
+const Home = () => (
+  <Container text>
+    <Header as="h2">Gerenciador de Certificados</Header>
+    <Tab
+      menu={{
+        color: 'grey',
+        inverted: false,
+        fluid: true,
+      }}
+      panes={panes}
+    />
+  </Container>
+);
 
-    return (
-      <Container>
-        <Menu vertical>
-          <Menu.Item>
-            <Menu.Header>Minha Empresa</Menu.Header>
-
-            <Menu.Menu>
-              <Menu.Item
-                name="Cadastro"
-                active={activeItem === 'cadastro'}
-                onClick={this.handleItemClick}
-              />
-              <Menu.Item
-                name="baixa"
-                active={activeItem === 'baixa'}
-                onClick={this.handleItemClick}
-              />
-            </Menu.Menu>
-          </Menu.Item>
-
-          <Menu.Item>
-            <Menu.Header>Clientes</Menu.Header>
-
-            <Menu.Menu>
-              <Menu.Item
-                name="Cadastro"
-                active={activeItem === 'cadcliente'}
-                onClick={this.handleItemClick}
-              />
-              <Menu.Item
-                name="baixa"
-                active={activeItem === 'baixacliente'}
-                onClick={this.handleItemClick}
-              />
-            </Menu.Menu>
-          </Menu.Item>
-
-          <Menu.Item>
-            <Menu.Header>Equipamentos</Menu.Header>
-
-            <Menu.Menu>
-              <Menu.Item
-                name="Cadastro"
-                active={activeItem === 'cadequipamento'}
-                onClick={this.handleItemClick}
-              />
-              <Menu.Item
-                name="baixa"
-                active={activeItem === 'baxiaequipamento'}
-                onClick={this.handleItemClick}
-              />
-            </Menu.Menu>
-          </Menu.Item>
-
-          <Menu.Item>
-            <Menu.Header>Certificados</Menu.Header>
-
-            <Menu.Menu>
-              <Menu.Item
-                name="Emitir"
-                active={activeItem === 'emitir'}
-                onClick={this.handleItemClick}
-              />
-
-              <Menu.Item
-                name="faq"
-                active={activeItem === 'faq'}
-                onClick={this.handleItemClick}
-              >
-                Aprovadores
-              </Menu.Item>
-            </Menu.Menu>
-          </Menu.Item>
-        </Menu>
-      </Container>
-    );
-  }
-}
+export default Home;
