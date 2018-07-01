@@ -8,6 +8,7 @@ import { gql } from 'apollo-boost';
 class Login extends React.Component {
   constructor(props) {
     super(props);
+    this.onSubmit = this.onSubmit.bind(this);
 
     extendObservable(this, {
       email: '',
@@ -28,7 +29,8 @@ class Login extends React.Component {
 
     if (ok) {
       localStorage.setItem('token', usuario.jwt);
-      this.props.history.push('/');
+      console.log(this.props);
+      //this.props.history.push('/');
     } else {
       const err = {};
       errors.forEach(({ path, message }) => {

@@ -9,11 +9,13 @@ import {
   TextArea,
 } from 'semantic-ui-react';
 import { getClienteQuery, addEquipamentoMutation } from '../queries';
+import CurrentUser from './CurrentUser';
 
 class Equipamentos extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      usuarioId: '',
       clienteId: '',
       nome: '',
       fabricante: '',
@@ -27,7 +29,10 @@ class Equipamentos extends Component {
       status: '',
     };
   }
-
+  componentDidMount() {
+    let currenteuser = CurrentUser();
+    this.setState({ usuarioId: currenteuser.id.toString() });
+  }
   mostraCliente() {
     let data = this.props.getClienteQuery;
     if (data.loading) {
@@ -46,6 +51,7 @@ class Equipamentos extends Component {
     e.preventDefault();
     this.props.addEquipamentoMutation({
       variables: {
+        usuarioId: this.state.usuarioId,
         clienteId: this.state.clienteId,
         nome: this.state.nome,
         fabricante: this.state.fabricante,
@@ -61,7 +67,6 @@ class Equipamentos extends Component {
     });
   }
   render() {
-    console.log(this.props);
     return (
       <Container text>
         <Header as="h2">Cadastro de Equipamento</Header>

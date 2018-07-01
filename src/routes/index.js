@@ -4,6 +4,7 @@ import decode from 'jwt-decode';
 import Register from './Register';
 import Home from './Home';
 import Login from './Login';
+import ListaCertificados from '../components/ListaCertificados';
 
 const isAuthenticated = () => {
   const token = localStorage.getItem('token');
@@ -35,6 +36,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 export default () => (
   <BrowserRouter>
     <Switch>
+      <Route path="/lista" exact component={ListaCertificados} />
       <PrivateRoute path="/" exact component={Home} />
       <Route path="/register" exact component={Register} />
       <Route path="/login" exact component={Login} />

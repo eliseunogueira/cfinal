@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { Form, Container, Input, FormButton, Header } from 'semantic-ui-react';
 import { getEmpresaQuery, addClienteMutation } from '../queries';
+import CurrentUser from './CurrentUser';
 
 class Clientes extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      usuarioId: '',
       empresaId: '',
       nome: '',
       cnpj: '',
@@ -15,6 +17,10 @@ class Clientes extends Component {
       email_2: '',
       telefone: '',
     };
+  }
+  componentDidMount() {
+    let currenteuser = CurrentUser();
+    this.setState({ usuarioId: currenteuser.id.toString() });
   }
 
   mostraEmpresa() {
@@ -33,9 +39,9 @@ class Clientes extends Component {
   }
   submitForm(e) {
     e.preventDefault();
-    // use the addBookMutation
     this.props.addClienteMutation({
       variables: {
+        usuarioId: this.state.usuarioId,
         empresaId: this.state.empresaId,
         nome: this.state.nome,
         cnpj: this.state.cnpj,

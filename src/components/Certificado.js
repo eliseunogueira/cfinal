@@ -9,11 +9,13 @@ import {
   TextArea,
 } from 'semantic-ui-react';
 import { getEquipamentoQuery, addCertificadoMutation } from '../queries';
+import CurrentUser from './CurrentUser';
 
 class Certificado extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      usuarioId: '',
       equipamentoId: '',
       nome: '',
       padrao: '',
@@ -26,7 +28,10 @@ class Certificado extends Component {
       arquivo: '',
     };
   }
-
+  componentDidMount() {
+    let currenteuser = CurrentUser();
+    this.setState({ usuarioId: currenteuser.id.toString() });
+  }
   mostraEquipamento() {
     let data = this.props.getEquipamentoQuery;
     if (data.loading) {
@@ -45,6 +50,7 @@ class Certificado extends Component {
     e.preventDefault();
     this.props.addCertificadoMutation({
       variables: {
+        usuarioId: this.state.usuarioId,
         equipamentoId: this.state.equipamentoId,
         nome: this.state.nome,
         padrao: this.state.padrao,
