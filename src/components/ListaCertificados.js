@@ -9,8 +9,13 @@ import {
 } from 'semantic-ui-react';
 import { gql } from 'apollo-boost';
 import { compose, graphql } from 'react-apollo';
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import CurrentUser from './CurrentUser';
-import { getListaCertificados, deletaCertificado } from '../queries';
+import {
+  getListaCertificados,
+  deletaCertificado,
+  novatemtativaEmail,
+} from '../queries';
 
 class ListaCertificados extends React.Component {
   constructor(props) {
@@ -28,6 +33,12 @@ class ListaCertificados extends React.Component {
     });
   }
 
+  handleAprovacao(e) {
+    this.props.novatemtativaEmail({
+      variables: { id: e.id },
+    });
+  }
+
   mostraCertificados() {
     let data = this.props.getListaCertificados;
     if (data.loading) {
@@ -42,11 +53,14 @@ class ListaCertificados extends React.Component {
           <Table.Row key={certificado.id}>
             <Table.Cell>{certificado.equipamento.cliente.nome}</Table.Cell>
             <Table.Cell>{certificado.equipamento.nome}</Table.Cell>
-            <Table.Cell>{certificado.createdAt}</Table.Cell>
+            <Table.Cell>{distanceInWordsToNow(certificado.data)}</Table.Cell>
             <Table.Cell>{certificado.equipamento.responsavel}</Table.Cell>
             <Table.Cell>{certificado.status}</Table.Cell>
             <Table.Cell>
-              <Button color="blue">
+              <Button
+                color="blue"
+                onClick={(e) => this.handleAprovacao(certificado)}
+              >
                 <Icon name="certificate" />Aprovação
               </Button>
               <Button
@@ -54,9 +68,6 @@ class ListaCertificados extends React.Component {
                 onClick={(e) => this.handleClick(certificado.id)}
               >
                 <Icon name="trash" />Excluir
-              </Button>
-              <Button color="green">
-                <Icon name="edit" />Editar
               </Button>
             </Table.Cell>
           </Table.Row>
@@ -91,6 +102,7 @@ class ListaCertificados extends React.Component {
 }
 
 export default compose(
+  graphql(novatemtativaEmail, { name: 'novatemtativaEmail' }),
   graphql(getListaCertificados, { name: 'getListaCertificados' }),
   graphql(deletaCertificado, { name: 'deletaCertificado' }),
 )(ListaCertificados);

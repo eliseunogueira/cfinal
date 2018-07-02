@@ -8,6 +8,14 @@ const deletaCertificado = gql`
   }
 `;
 
+const novatemtativaEmail = gql`
+  mutation novatemtativaEmail($id: String!) {
+    novatemtativaEmail(id: $id) {
+      id
+    }
+  }
+`;
+
 const getListaCertificados = gql`
   {
     certificados {
@@ -16,6 +24,7 @@ const getListaCertificados = gql`
       status
       data
       createdAt
+      email_ap
       equipamento {
         id
         nome
@@ -193,6 +202,7 @@ const getEmpresaQuery = gql`
 `;
 
 export {
+  novatemtativaEmail,
   deletaCertificado,
   getListaCertificados,
   addCertificadoMutation,
