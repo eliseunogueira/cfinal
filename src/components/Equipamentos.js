@@ -8,7 +8,11 @@ import {
   Header,
   TextArea,
 } from 'semantic-ui-react';
-import { getClienteQuery, addEquipamentoMutation } from '../queries';
+import {
+  getClienteQuery,
+  addEquipamentoMutation,
+  getEquipamentoQuery,
+} from '../queries';
 import CurrentUser from './CurrentUser';
 
 class Equipamentos extends Component {
@@ -64,6 +68,7 @@ class Equipamentos extends Component {
         ensaio: this.state.ensaio,
         status: this.state.status,
       },
+      refetchQueries: [{ query: getEquipamentoQuery }],
     });
   }
   render() {
@@ -161,6 +166,7 @@ class Equipamentos extends Component {
 }
 
 export default compose(
+  graphql(getEquipamentoQuery, { name: 'getEquipamentoQuery' }),
   graphql(getClienteQuery, { name: 'getClienteQuery' }),
   graphql(addEquipamentoMutation, { name: 'addEquipamentoMutation' }),
 )(Equipamentos);

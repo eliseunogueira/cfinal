@@ -1,8 +1,35 @@
 import { gql } from 'apollo-boost';
 
-/**
- * Consulta os equipamento
- */
+const deletaCertificado = gql`
+  mutation cadEquipamento($id: String!) {
+    deleteCertificado(id: $id) {
+      message
+    }
+  }
+`;
+
+const getListaCertificados = gql`
+  {
+    certificados {
+      id
+      nome
+      status
+      data
+      createdAt
+      equipamento {
+        id
+        nome
+        responsavel
+        cliente {
+          id
+          nome
+          responsavel
+        }
+      }
+    }
+  }
+`;
+
 const getEquipamentoQuery = gql`
   {
     equipamentos {
@@ -166,6 +193,8 @@ const getEmpresaQuery = gql`
 `;
 
 export {
+  deletaCertificado,
+  getListaCertificados,
   addCertificadoMutation,
   addEmpresaMutation,
   getUsuarioQuery,

@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { Form, Container, Input, FormButton, Header } from 'semantic-ui-react';
-import { getEmpresaQuery, addClienteMutation } from '../queries';
+import {
+  getEmpresaQuery,
+  addClienteMutation,
+  getEquipamentoQuery,
+} from '../queries';
 import CurrentUser from './CurrentUser';
 
 class Clientes extends Component {
@@ -50,7 +54,7 @@ class Clientes extends Component {
         email_2: this.state.email_2,
         telefone: this.state.telefone,
       },
-      refetchQueries: [{ query: addClienteMutation }],
+      refetchQueries: [{ query: getEquipamentoQuery }],
     });
   }
   render() {
@@ -119,6 +123,7 @@ class Clientes extends Component {
 }
 
 export default compose(
+  graphql(getEquipamentoQuery, { name: 'getEquipamentoQuery' }),
   graphql(getEmpresaQuery, { name: 'getEmpresaQuery' }),
   graphql(addClienteMutation, { name: 'addClienteMutation' }),
 )(Clientes);

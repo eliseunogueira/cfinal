@@ -7,8 +7,13 @@ import {
   FormButton,
   Header,
   TextArea,
+  Message,
 } from 'semantic-ui-react';
-import { getEquipamentoQuery, addCertificadoMutation } from '../queries';
+import {
+  getEquipamentoQuery,
+  addCertificadoMutation,
+  getListaCertificados,
+} from '../queries';
 import CurrentUser from './CurrentUser';
 
 class Certificado extends Component {
@@ -62,10 +67,8 @@ class Certificado extends Component {
         status: this.state.status,
         arquivo: this.state.arquivo,
       },
+      refetchQueries: [{ query: getListaCertificados }],
     });
-    let data = this.props;
-    console.log(data);
-    this.props.history.push('/');
   }
   render() {
     return (
@@ -151,6 +154,7 @@ class Certificado extends Component {
 }
 
 export default compose(
+  graphql(getListaCertificados, { name: 'getListaCertificados' }),
   graphql(getEquipamentoQuery, { name: 'getEquipamentoQuery' }),
   graphql(addCertificadoMutation, { name: 'addCertificadoMutation' }),
 )(Certificado);
